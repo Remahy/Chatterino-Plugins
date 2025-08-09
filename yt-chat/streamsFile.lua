@@ -104,5 +104,6 @@ end
 ---@param channelData string
 ---@param split string
 function StreamData_Has_Split(channelData, split)
-  return Table_Has_Value(channelData[SPLITS_PROPERTY_NAME], split)
+  local index = LumeFind(channelData[SPLITS_PROPERTY_NAME], split)
+  return type(index) == "number"
 end

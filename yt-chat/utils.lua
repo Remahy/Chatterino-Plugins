@@ -29,6 +29,7 @@ function FileExists(filename)
   return isPresent
 end
 
+-- Only works if the key we're looking for has a value?
 function Table_Has_Value(table, value)
   if rawget(table, value) then
     return true
