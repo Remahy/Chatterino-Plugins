@@ -62,6 +62,5 @@ function Read_Stream_Data()
 
   IO_LOCK = false
 
-  Read_Stream_Data()
   --c2.later(Read_Stream_Data, 1000)
 end
