@@ -1,6 +1,5 @@
 require "utils"
 require "streamsFile"
-local json = require "libs/json"
 
 IO_LOCK = false
 
