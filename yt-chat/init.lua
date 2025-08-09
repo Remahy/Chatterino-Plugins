@@ -14,6 +14,11 @@ require "readStream"
 local cmd_yt_chat = function(ctx)
   local channel = ctx.channel
 
+  if Trim5(channel:get_name()) == "" then
+    Warn_Channel_Name(channel)
+    return
+  end
+
   if #ctx.words == 1 then
     Warn_No_URL_Provided(channel)
     return

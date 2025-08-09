@@ -76,6 +76,12 @@ function Warn_IO_Busy(channel)
 end
 
 ---@param channel c2.Channel
+function Warn_Channel_Name(channel)
+  channel:add_system_message(YT_CHAT_SYSTEM_MESSAGE_PREFIX ..
+    "This command cannot be run in a split with this name '" .. channel:get_name() .. "'. Try renaming it and try again.")
+end
+
+---@param channel c2.Channel
 ---@param url string
 function Log_Reading_URL(channel, url)
   channel:add_system_message(YT_CHAT_SYSTEM_MESSAGE_PREFIX .. "Reading URL: " .. url)
