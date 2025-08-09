@@ -4,10 +4,6 @@ require "constants"
 require "mm2plHelper"
 require "utils"
 
-STREAMS_SETTINGS_PROPERTY_NAME = "settings"
-STREAMS_CHANNELS_PROPERTY_NAME = "channels"
-STREAMS_SPLITS_PROPERTY_NAME = "splits"
-
 local STREAMS_FILE_NAME = "YT_CHAT.json"
 local STREAMS_FILE_DEFAULT_CONTENT = [[{
   "]] .. STREAMS_SETTINGS_PROPERTY_NAME .. [[": {},
