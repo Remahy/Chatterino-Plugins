@@ -59,7 +59,7 @@ local create_message = function(message)
 end
 
 local chat_poll_action = function()
-
+  return nil
 end
 
 ---@param textRenderer {}
