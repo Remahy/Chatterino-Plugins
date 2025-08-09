@@ -7,38 +7,35 @@ local initialize_add_stream = function(channel, data)
   local channelId = data.channelId
   local continuation = data.continuation
 
-  StreamFile_Create_If_Not_Exists()
-
   local split = channel:get_name()
 
-  local channelData = StreamFile_Read_Channel(channelId)
+  local channelData = Stream_Read_Channel(channelId)
 
   if channelData ~= nil then
     local hasSplit = StreamData_Has_Split(channelData, split)
     if hasSplit then
       Warn_Split_Already_Added(channel, channelId, split)
-      IO_LOCK = false
       return
     end
 
-    local splits = StreamFile_Add_Split_To_Channel(channelId, split)
-
-    IO_LOCK = false
+    local splits = Stream_Add_Split_To_Channel(channelId, split)
 
     if continuation then
       Add_To_Active_Streams(videoId, splits)
     end
 
+    StreamFile_Update(STREAMS_DATA)
+
     return
   end
 
-  local splits = StreamFile_Create_Channel(channelId, split)
-
-  IO_LOCK = false
+  local splits = Stream_Create_Channel(channelId, split)
 
   if continuation then
     Initialize_Live_Polling(data, splits)
   end
+
+  StreamFile_Update(STREAMS_DATA)
 end
 
 ---@param channel c2.Channel

@@ -61,18 +61,14 @@ local is_live_request = function(channelId, splits)
 end
 
 function Read_Stream_Data()
-  if IO_LOCK == true then
+  if IO_LOCK then
     return
   end
 
-  IO_LOCK = true
-
-  local channelsData = StreamFile_Read_Channels()
-
-  local channelIds = Get_Keys(channelsData)
+  local channelIds = Get_Keys(Stream_Read_Channels())
 
   for _, channelId in ipairs(channelIds) do
-    local splits = Only_Available_Splits(channelsData[channelId][SPLITS_PROPERTY_NAME])
+    local splits = Only_Available_Splits(Stream_Read_Channel(channelId)[STREAMS_SPLITS_PROPERTY_NAME])
 
     if #splits > 0 then
       is_live_request(channelId, splits)
@@ -80,8 +76,6 @@ function Read_Stream_Data()
       print("No splits available for", channelId)
     end
   end
-
-  IO_LOCK = false
 
   c2.later(Read_Stream_Data, 1000)
 end
