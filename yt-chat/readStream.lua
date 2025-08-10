@@ -45,21 +45,21 @@ local parse_is_live_data = function(result, channelId, splits)
 end
 
 ---@param channelId string
-local getUrl = function(channelId)
+local create_channel_url = function(channelId)
   return "https://www.youtube.com/channel/" .. channelId .. "/live"
 end
 
 ---@param channelId string
 ---@param splits table
 local is_live_request = function(channelId, splits)
-  local url = getUrl(channelId)
+  local url = create_channel_url(channelId)
 
   local request = c2.HTTPRequest.create(c2.HTTPMethod.Get, url)
   Mutate_Request_Default_Headers(request)
 
   request:on_success(function(result) parse_is_live_data(result, channelId, splits) end)
 
-  request:on_error(function(result) print("Something went wrong reading url " .. url .. " :" .. result:error()) end)
+  request:on_error(function(result) print("Something went wrong reading url on is_live_request" .. url .. " :" .. result:error()) end)
 
   request:execute()
 end
