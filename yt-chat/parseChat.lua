@@ -146,8 +146,10 @@ function Read_YouTube_Chat(data)
 
   local request = c2.HTTPRequest.create(c2.HTTPMethod.Post,
     "https://www.youtube.com/youtubei/v1/live_chat/get_live_chat?key=" .. apiKey)
+
   Mutate_Request_Default_Headers(request)
   request:set_header("Content-Type", "application/json")
+
   request:set_payload([[
     {
       "context": {
@@ -159,10 +161,13 @@ function Read_YouTube_Chat(data)
       "continuation": "]] .. continuation .. [["
     }
   ]])
+
   request:on_success(function(result) parse_live_chat_response(data, result) end)
+
   request:on_error(function(result)
     print("Something went wrong reading chat from videoId " ..
       videoId .. " :" .. result:error())
   end)
+
   request:execute()
 end
