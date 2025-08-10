@@ -15,24 +15,24 @@ function Initialize_Live_Polling(data, splits)
 end
 
 ---@param result c2.HTTPResponse
----@param splits any
-local parse_is_live_data = function(result, splits)
+---@param channelId string
+---@param splits table
+local parse_is_live_data = function(result, channelId, splits)
   local data, err = Parse_HTML(result)
 
-  if (err == nil or err ~= "continuation") and type(data) ~= "table" then
-    print("Faulty HTML", "data is", type(data), "err is", err)
+  if err ~= nil and err ~= "continuation" then
+    print("Faulty HTML. Could not find '" .. err .. "' for channelId:", channelId)
+    return
+  end
+
+  if err == "continuation" then
+    -- drop silently, this video isn't live.
     return
   end
 
   if data == nil then
     -- it will never get here, but linter is complaining.
     print("Clueless data == nil")
-    return
-  end
-
-  if err == "continuation" then
-    -- drop silently, this video isn't live.
-    print("Dropping", json.encode(data))
     return
   end
 
@@ -53,10 +53,14 @@ end
 ---@param splits table
 local is_live_request = function(channelId, splits)
   local url = getUrl(channelId)
+
   local request = c2.HTTPRequest.create(c2.HTTPMethod.Get, url)
   Mutate_Request_Default_Headers(request)
-  request:on_success(function(result) parse_is_live_data(result, splits) end)
+
+  request:on_success(function(result) parse_is_live_data(result, channelId, splits) end)
+
   request:on_error(function(result) print("Something went wrong reading url " .. url .. " :" .. result:error()) end)
+
   request:execute()
 end
 
