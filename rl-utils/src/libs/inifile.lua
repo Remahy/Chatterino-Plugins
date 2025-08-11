@@ -31,33 +31,17 @@ local inifile = {
 	]] -- The above license is known as the Simplified BSD license.
 }
 
-local defaultBackend = "io"
-
 local backends = {
-	io = {
-		lines = function(name) return assert(io.open(name)):lines() end,
-		write = function(name, contents)
-			local file = assert(io.open(name, "w"))
-			file:write(contents)
-			file:close()
-		end,
-	},
 	memory = {
 		lines = function(text) return text:gmatch("([^\r\n]+)\r?\n") end,
-		write = function(name, contents) return contents end,
+		write = function(contents) return contents end,
 	},
 }
 
-if love then
-	backends.love = {
-		lines = love.filesystem.lines,
-		write = function(name, contents) love.filesystem.write(name, contents) end,
-	}
-	defaultBackend = "love"
-end
+---@param str string
+function inifile.decode(str)
+	local backend = backends.memory
 
-function inifile.parse(name, backend)
-	backend = backend or defaultBackend
 	local t = {}
 	local section
 	local comments = {}
@@ -66,7 +50,7 @@ function inifile.parse(name, backend)
 	local lineNumber = 0
 	local errors = {}
 
-	for line in backends[backend].lines(name) do
+	for line in backend.lines(str) do
 		lineNumber = lineNumber + 1
 		local validLine = false
 
@@ -75,7 +59,7 @@ function inifile.parse(name, backend)
 		if s then
 			section = s
 			t[section] = t[section] or {}
-			cursectionorder = {name = section}
+			cursectionorder = { name = section }
 			table.insert(sectionorder, cursectionorder)
 			validLine = true
 		end
@@ -114,8 +98,11 @@ function inifile.parse(name, backend)
 	}), errors
 end
 
-function inifile.save(name, t, backend)
-	backend = backend or defaultBackend
+---@param t table
+---@return string
+function inifile.encode(t)
+	local backend = backends.memory
+
 	local contents = {}
 
 	-- Get our metadata if it exists
@@ -201,7 +188,7 @@ function inifile.save(name, t, backend)
 		end
 	end
 
-	return backends[backend].write(name, table.concat(contents, "\n"))
+	return backend.write(table.concat(contents, "\n"))
 end
 
 return inifile
