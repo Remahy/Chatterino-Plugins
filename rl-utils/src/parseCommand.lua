@@ -1,9 +1,9 @@
+require "src/state/settings"
 require "systemMessages"
-require "state"
 
 ---@param words string[]
 local parse_options = function(words)
-  local options = Settings_Read_Settings()
+  local options = Settings_Read_Default_Options()
 
   local count = 0
 
@@ -111,7 +111,7 @@ function Parse_Command(ctx, usageText, optionsText)
   return {
     username = username,
     channel = ch,
-    options = options,
+    options = options or Settings_Read_Default_Options(),
     restStr = restStr
   }
 end

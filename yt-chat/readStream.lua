@@ -1,9 +1,9 @@
 local json = require "libs/json"
 
+require "src/state/settings"
 require "utils"
 require "streamsFile"
 require "parseChat"
-require "state"
 
 ---@param data { channelName:string, channelId:string, videoId:string, apiKey:string, clientVersion:string, continuation:string }
 ---@param splits {}
