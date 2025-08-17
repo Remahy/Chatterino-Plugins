@@ -9,8 +9,6 @@ local join_options = function(options, ignores, joinStr)
 
   local text = ""
 
-  print(ignores)
-
   for key, value in pairs(options) do
     if LumeFind(defaultIgnores, key) then
       goto skip
@@ -34,7 +32,7 @@ function Create_Raw_Channel_Link(channel, options)
 
   local joinedOptions = join_options(options)
 
-  return url .. "?" .. joinedOptions
+  return url .. Ternary(joinedOptions ~= "", "?" .. joinedOptions, "")
 end
 
 function Create_Raw_Channel_User_Link(channel, username, options)
@@ -43,5 +41,5 @@ function Create_Raw_Channel_User_Link(channel, username, options)
 
   local joinedOptions = join_options(options)
 
-  return url .. "?" .. joinedOptions
+  return url .. Ternary(joinedOptions ~= "", "?" .. joinedOptions, "")
 end
