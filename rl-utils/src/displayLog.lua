@@ -3,14 +3,9 @@ require "utils"
 --- @param split c2.Channel
 --- @param log { timestamp: string, channel: string, username: string, message: string }
 function Display_Log(split, log)
-  local t = Parse_Timestamp(log.timestamp)
-
-  local timestamp = To_Epoch(t)
-
   local chatMessage = c2.Message.new({
     channel_name = log.channel,
     login_name = log.username,
-    server_received_time = timestamp,
     elements = {
       {
         type = "text",
@@ -19,8 +14,9 @@ function Display_Log(split, log)
         style = c2.FontStyle.ChatMediumBold
       },
       {
-        type = "timestamp",
-        time = timestamp
+        type = "text",
+        color = "system",
+        text = log.timestamp
       },
       {
         type = "text",
