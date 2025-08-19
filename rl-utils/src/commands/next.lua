@@ -31,13 +31,15 @@ local handler = function(ctx)
     return
   end
 
-  splitData.options.o = splitData.options.o + splitData.options.l
 
-  if splitData.options.o > #splitData.data then
+  local newOffset = splitData.options.o + splitData.options.l
+
+  if newOffset > #splitData.data then
     Warn_Out_Of_Bounds(ctx.channel)
     return
   end
 
+  splitData.options.o = newOffset
   Loaded_Chat_Set(splitName, splitData)
   Parse_Logs(ctx.channel)
 end
