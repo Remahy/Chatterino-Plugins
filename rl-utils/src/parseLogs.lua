@@ -1,6 +1,8 @@
 require "src/state/loadedChats"
+require "src/state/settings"
 require "displayLog"
 require "utils"
+require "constants"
 
 ---@param line string
 local parse_line = function(line)
@@ -41,6 +43,8 @@ local offline_parse = function(split, splitData)
       print("Faulty log?", data[i])
     end
   end
+
+  Info_System_Message(split, "Type " .. PREFIX .. COMMAND_NEXT .. " to load more. " .. splitData.url)
 end
 
 --- @param split c2.Channel
@@ -56,6 +60,9 @@ local online_parse = function(split, splitData)
       print("Faulty log?", data[i])
     end
   end
+
+  splitData.data = nil
+  Loaded_Chat_Set(split:get_name(), splitData)
 end
 
 --- @param split c2.Channel
@@ -67,6 +74,6 @@ function Parse_Logs(split)
     return
   end
 
-  -- Online parsing is basically loading the received data
+  -- Online parsing is basically loading the received data, but we delete the data once it's parsed.
   online_parse(split, splitData)
 end

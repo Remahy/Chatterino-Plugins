@@ -16,6 +16,20 @@ local optionsText = [[
 Available options: d=(false)|true l=(10)
 ]]
 
+function Get_Logs_Url(command)
+  local url = ""
+
+  if command.username ~= "" and command.channel ~= "" then
+    url = Create_Raw_Channel_User_Link(command.channel, command.username, command.options)
+  end
+
+  if url == nil then
+    url = Create_Raw_Channel_Link(command.channel, command.options)
+  end
+
+  return url
+end
+
 ---@param ctx CommandContext
 local handler = function(ctx)
   local command = Parse_Command(ctx, usageText, optionsText)
@@ -30,9 +44,7 @@ local handler = function(ctx)
     command.options["limit"] = command.options.l
   end
 
-  if url == nil then
-    url = Create_Raw_Channel_Link(command.channel, command.options)
-  end
+  url = Get_Logs_Url(command)
 
   Load_URL(ctx.channel, url, command)
 end

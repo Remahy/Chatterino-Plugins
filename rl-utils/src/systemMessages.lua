@@ -1,3 +1,4 @@
+require "src/state/settings"
 require "constants"
 
 ---@param channel c2.Channel
@@ -10,6 +11,12 @@ end
 ---@param text string
 function Info_System_Message(channel, text)
   channel:add_system_message(RL_UTILS_SYSTEM_MESSAGE_PREFIX .. text)
+end
+
+---@param channel c2.Channel
+function Warn_No_Logs_Loaded_Into_Split(channel)
+  channel:add_system_message(RL_UTILS_SYSTEM_MESSAGE_PREFIX ..
+    "No logs have been loaded into this split. Add one using the \"" .. PREFIX .. COMMAND_LOGS .. "\" command.")
 end
 
 ---@param channel c2.Channel
