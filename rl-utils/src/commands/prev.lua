@@ -31,6 +31,12 @@ local handler = function(ctx)
     return
   end
 
+  splitData.options.o = splitData.options.o - splitData.options.l
+  if splitData.options.o < 0 then
+    Warn_Negative_Offset(ctx.channel)
+    return
+  end
+
   Loaded_Chat_Set(splitName, splitData)
   Parse_Logs(ctx.channel)
 end

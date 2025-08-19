@@ -21,6 +21,16 @@ function Warn_HTTP_Error(channel, url, error)
 end
 
 ---@param channel c2.Channel
+function Warn_Negative_Offset(channel)
+  channel:add_system_message(RL_UTILS_SYSTEM_MESSAGE_PREFIX .. " Offset can't be negative. Try reversing this log instead.")
+end
+
+---@param channel c2.Channel
+function Warn_Out_Of_Bounds(channel)
+  channel:add_system_message(RL_UTILS_SYSTEM_MESSAGE_PREFIX .. " Out of bounds. You've reached the end of these logs.")
+end
+
+---@param channel c2.Channel
 ---@param text string
 function Info_System_Message(channel, text)
   channel:add_system_message(RL_UTILS_SYSTEM_MESSAGE_PREFIX .. " " ..text)
