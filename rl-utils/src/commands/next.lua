@@ -31,7 +31,7 @@ local handler = function(ctx)
     return
   end
 
-  splitData.o = splitData.o + splitData.l
+  splitData.options.o = splitData.options.o + splitData.options.l
   Loaded_Chat_Set(splitName, splitData)
   Parse_Logs(ctx.channel)
 end

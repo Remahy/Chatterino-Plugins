@@ -25,7 +25,7 @@ local initialize_logs = function(split, result, url, command)
   -- TODO: Document the default "offline" functionality (We do one http request, and then browse the result.)
   -- Defining these two options will automatically make "next" & "prev" always do a http request.
   if OptionalChain(options, "limit") == nil and OptionalChain(options, "offset") == nil then
-    splitData.o = OptionalChain(splitData, "o") or 0
+    splitData.options.o = OptionalChain(splitData, options, "o") or 0
     splitData.offline = true
   end
 
