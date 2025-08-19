@@ -27,7 +27,7 @@ local offline_parse = function(split, data, options)
   local l = (tonumber(options.l) or 10) - 1
   local o = (tonumber(options.o) or 0)
 
-  local from = #data - o - l
+  local from = o + 1
   local to = l + from
 
   for i = from, to do
