@@ -26,3 +26,16 @@ function Info_System_Message(channel, text)
   channel:add_system_message(RL_UTILS_SYSTEM_MESSAGE_PREFIX .. " " ..text)
 end
 
+---@param channel c2.Channel
+function Info_Divider(channel)
+  channel:add_message(c2.Message.new({
+    elements = {
+      {
+        type = "text",
+        text = "----" .. RL_UTILS_SYSTEM_MESSAGE_PREFIX .. "----",
+        color = "system",
+        style = c2.FontStyle.ChatMediumBold
+      }
+    }
+  }))
+end

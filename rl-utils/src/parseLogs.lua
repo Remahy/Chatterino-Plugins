@@ -44,7 +44,9 @@ local offline_parse = function(split, splitData)
     end
   end
 
-  Info_System_Message(split, "Type " .. PREFIX .. COMMAND_NEXT .. " to load more. " .. splitData.url)
+  Info_System_Message(split,
+    "(" .. Ternary(from == 1, 1, from-1) .. "-" .. to .. " of " .. #data .. ")" ..
+    " Type " .. PREFIX .. COMMAND_NEXT .. " or " .. PREFIX .. COMMAND_PREV)
 end
 
 --- @param split c2.Channel
@@ -69,11 +71,13 @@ end
 function Parse_Logs(split)
   local splitData = Loaded_Chat_Get(split:get_name())
 
+  Info_Divider(split)
+
   if splitData.offline then
     offline_parse(split, splitData)
-    return
+  else
+    -- Online parsing is basically loading the received data, but we delete the data once it's parsed.
+    online_parse(split, splitData)
+    Info_System_Message(split, splitData.url)
   end
-
-  -- Online parsing is basically loading the received data, but we delete the data once it's parsed.
-  online_parse(split, splitData)
 end
