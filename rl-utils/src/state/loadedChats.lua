@@ -1,4 +1,4 @@
----@type { ["splitName"]: { username: string, channel: string, l: number, o: number, data: string[], offline: true|nil } }
+---@type { ["splitName"]: { username: string, channel: string, l: number, o: number, data: string[], options: table, offline: true|nil, url: string } }
 LOADED_CHATS = {}
 
 ---@param splitName string
@@ -7,7 +7,7 @@ function Loaded_Chat_Get(splitName)
 end
 
 ---@param splitName string
----@param data { username: string, channel: string, l: number, o: number, data: string[], offline: true|nil }
+---@param data { username: string, channel: string, l: number, o: number, data: string[], options: table, offline: true|nil, url: string }
 function Loaded_Chat_Set(splitName, data)
   LOADED_CHATS[splitName] = data
 end

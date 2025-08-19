@@ -11,3 +11,10 @@ end
 function Info_System_Message(channel, text)
   channel:add_system_message(RL_UTILS_SYSTEM_MESSAGE_PREFIX .. text)
 end
+
+---@param channel c2.Channel
+---@param url string
+---@param error string
+function Warn_HTTP_Error(channel, url, error)
+  channel:add_system_message("Something went wrong reading URL " .. url .. " : " .. error)
+end

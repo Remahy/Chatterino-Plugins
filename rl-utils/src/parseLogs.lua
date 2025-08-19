@@ -22,8 +22,10 @@ local parse_line = function(line)
 end
 
 ---@param split c2.Channel
----@param data string[]
-local offline_parse = function(split, data, options)
+local offline_parse = function(split, splitData)
+  local data = splitData.data
+  local options = splitData.options
+
   local l = (tonumber(options.l) or 10) - 1
   local o = (tonumber(options.o) or 0)
 
@@ -41,8 +43,11 @@ local offline_parse = function(split, data, options)
   end
 end
 
-local online_parse = function(split, data)
-    for i = 1, #data do
+--- @param split c2.Channel
+local online_parse = function(split, splitData)
+  local data = splitData.data
+
+  for i = 1, #data do
     local result = parse_line(data[i])
 
     if result then
@@ -55,14 +60,13 @@ end
 
 --- @param split c2.Channel
 function Parse_Logs(split)
-  local options = Loaded_Chat_Get(split:get_name())
-  local data = options.data
+  local splitData = Loaded_Chat_Get(split:get_name())
 
-  if options.offline then
-    offline_parse(split, data, options)
+  if splitData.offline then
+    offline_parse(split, splitData)
     return
   end
 
   -- Online parsing is basically loading the received data
-  online_parse(split, data)
+  online_parse(split, splitData)
 end

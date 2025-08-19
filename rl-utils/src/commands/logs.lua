@@ -34,7 +34,7 @@ local handler = function(ctx)
     url = Create_Raw_Channel_Link(command.channel, command.options)
   end
 
-  Load_URL(ctx.channel, url, command.options)
+  Load_URL(ctx.channel, url, command)
 end
 
 c2.register_command(commandSlash, handler)
