@@ -26,8 +26,8 @@ local handler = function(ctx)
 
   local url = nil
 
-  if command.username ~= "" and command.channel ~= "" then
-    url = Create_Raw_Channel_User_Link(command.channel, command.username, command.options)
+  if OptionalChain(command.options, "offset") and OptionalChain(command.options, "limit") == nil then
+    command.options["limit"] = command.options.l
   end
 
   if url == nil then
