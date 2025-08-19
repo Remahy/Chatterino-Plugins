@@ -32,7 +32,7 @@ local offline_parse = function(split, splitData)
   local o = (tonumber(options.o) or 0)
 
   local from = o + 1
-  local to = l + from
+  local to = math.min(l + from, #data)
 
   for i = from, to do
     local result = parse_line(data[i])
