@@ -1,12 +1,13 @@
 require "src/parseCommand"
 require "src/systemMessages"
+require "src/constants"
 require "src/http/links"
 require "src/http/logs"
 require "src/mm2plHelper"
 require "src/io/settingsConstants"
 require "src/state/settings"
 
-local commandSlash = PREFIX .. "logs"
+local commandSlash = PREFIX .. COMMAND_LOGS
 
 local usageText = [[
 Usage syntax: ]] .. commandSlash .. [[ <username> <#channel?> <...options?>

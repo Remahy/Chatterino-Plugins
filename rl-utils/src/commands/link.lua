@@ -1,3 +1,4 @@
+require "src/constants"
 require "src/parseCommand"
 require "src/systemMessages"
 require "src/mm2plHelper"
@@ -5,7 +6,7 @@ require "src/http/links"
 require "src/state/settings"
 require "src/io/settingsConstants"
 
-local commandSlash = PREFIX .. "link"
+local commandSlash = PREFIX .. COMMAND_LINK
 
 local usageText = [[
 Usage syntax: ]] .. commandSlash .. [[ <username> <#channel?> <...options?>
@@ -30,9 +31,9 @@ local handler = function(ctx)
     url = Create_Raw_Channel_Link(command.channel, command.options)
   end
 
-  if OptionalChain(command, "options", SETTINGS_DIRECT_PROPERTY_NAME) ~= nil and command.username ~= "" then
+  if OptionalChain(command.options, SETTINGS_DIRECT_PROPERTY_NAME) ~= nil and command.username ~= "" then
     url = Create_Raw_Channel_User_Link(command.channel, command.username, command.options)
-  elseif OptionalChain(command, "options", SETTINGS_DIRECT_PROPERTY_NAME) ~= nil and command.username == "" then
+  elseif OptionalChain(command.options, SETTINGS_DIRECT_PROPERTY_NAME) ~= nil and command.username == "" then
     Warn_No_Foo_Provided(ctx.channel, "username", usageText)
     return
   end
