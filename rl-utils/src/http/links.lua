@@ -1,7 +1,7 @@
 require "src/state/settings"
 require "src/utils"
 
-local DEFAULT_IGNORES = { SETTINGS_DIRECT_PROPERTY_NAME }
+local DEFAULT_IGNORES = { SETTINGS_DIRECT_PROPERTY_NAME, SETTINGS_LIMIT_PROPERTY_NAME }
 
 local join_options = function(options, ignores, joinStr)
   local defaultIgnores = ignores or DEFAULT_IGNORES
@@ -14,7 +14,7 @@ local join_options = function(options, ignores, joinStr)
       goto skip
     end
 
-    text = Ternary(#text ~= 0, defaultJoinStr or "&", "") .. key .. "=" .. tostring(value)
+    text = text .. Ternary(#text ~= 0, defaultJoinStr or "&", "") .. key .. "=" .. tostring(value)
 
     ::skip::
   end
