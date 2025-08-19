@@ -32,7 +32,7 @@ local handler = function(ctx)
   end
 
   local newOffset = splitData.options.o - splitData.options.l
-  if splitData.options.o < 0 then
+  if newOffset < 0 then
     Warn_Negative_Offset(ctx.channel)
     return
   end
