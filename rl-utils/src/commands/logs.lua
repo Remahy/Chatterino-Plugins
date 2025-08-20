@@ -17,7 +17,7 @@ Available options: d=(false)|true l=(10)
 ]]
 
 function Get_Logs_Url(command)
-  local url = ""
+  local url = nil
 
   if command.username ~= "" and command.channel ~= "" then
     url = Create_Raw_Channel_User_Link(command.channel, command.username, command.options)
