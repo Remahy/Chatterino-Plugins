@@ -1,0 +1,26 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Chatterino/chatterino2/master/docs/plugin-info.schema.json",
+  "name": "rl-utils",
+  "description": "rustlog utilities",
+  "authors": [
+    "kararty"
+  ],
+  "homepage": "https://github.com/Remahy/Chatterino-Plugins/tree/main/rl-utils",
+  "tags": [
+    "commands",
+    "utility"
+  ],
+  "version": "0.0.0",
+  "license": "MIT",
+  "permissions": [
+    {
+      "type": "Network"
+    },
+    {
+      "type": "FilesystemRead"
+    },
+    {
+      "type": "FilesystemWrite"
+    }
+  ]
+}
