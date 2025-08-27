@@ -43,3 +43,9 @@ function Settings_Read_Instance_Raw_Channel_User()
   ---@diagnostic disable-next-line: return-type-mismatch
   return SETTINGS[SETTINGS_PROPERTY_NAME][SETTINGS_INSTANCE_RAW_CHANNEL_USER_PROPERTY_NAME]
 end
+
+---@return string
+function Settings_Read_Instance_Raw_Channel_Userid()
+  ---@diagnostic disable-next-line: return-type-mismatch
+  return SETTINGS[SETTINGS_PROPERTY_NAME][SETTINGS_INSTANCE_RAW_CHANNEL_USERID_PROPERTY_NAME]
+end

@@ -35,9 +35,21 @@ function Create_Raw_Channel_Link(channel, options)
   return url .. Ternary(joinedOptions ~= "", "?" .. joinedOptions, "")
 end
 
+---@param channel string
+---@param username string
+---@return string
 function Create_Raw_Channel_User_Link(channel, username, options)
-  local url = Settings_Read_Instance_Base_Url() ..
-      Settings_Read_Instance_Raw_Channel_User():gsub("%%username%%", username):gsub("%%channel%%", channel);
+  local url = nil
+
+  if username:match(":") then
+    local _username = String_Split(username, "[^:]*")[2]
+
+    url = Settings_Read_Instance_Base_Url() ..
+        Settings_Read_Instance_Raw_Channel_Userid():gsub("%%username%%", _username):gsub("%%channel%%", channel);
+  else
+    url = Settings_Read_Instance_Base_Url() ..
+        Settings_Read_Instance_Raw_Channel_User():gsub("%%username%%", username):gsub("%%channel%%", channel);
+  end
 
   local joinedOptions = join_options(options)
 
