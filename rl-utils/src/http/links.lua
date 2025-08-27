@@ -42,10 +42,10 @@ function Create_Raw_Channel_User_Link(channel, username, options)
   local url = nil
 
   if username:match(":") then
-    local _username = String_Split(username, "[^:]*")[2]
+    local userid = String_Split(username, "[^:]*")[2]
 
     url = Settings_Read_Instance_Base_Url() ..
-        Settings_Read_Instance_Raw_Channel_Userid():gsub("%%username%%", _username):gsub("%%channel%%", channel);
+        Settings_Read_Instance_Raw_Channel_Userid():gsub("%%userid%%", userid):gsub("%%channel%%", channel);
   else
     url = Settings_Read_Instance_Base_Url() ..
         Settings_Read_Instance_Raw_Channel_User():gsub("%%username%%", username):gsub("%%channel%%", channel);

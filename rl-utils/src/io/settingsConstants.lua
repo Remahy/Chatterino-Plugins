@@ -17,7 +17,7 @@ SETTINGS_CONTENT = {
     [SETTINGS_INSTANCE_BASE_URL_PROPERT_NAME] = "https://logs.ivr.fi",
     [SETTINGS_INSTANCE_LINK_PROPERTY_NAME] = "/?channel=%channel%&username=%username%",
     [SETTINGS_INSTANCE_RAW_CHANNEL_USER_PROPERTY_NAME] = "/channel/%channel%/user/%username%",
-    [SETTINGS_INSTANCE_RAW_CHANNEL_USERID_PROPERTY_NAME] = "/channel/%channel%/userid/%username%",
+    [SETTINGS_INSTANCE_RAW_CHANNEL_USERID_PROPERTY_NAME] = "/channel/%channel%/userid/%userid%",
     [SETTINGS_INSTANCE_RAW_CHANNEL_PROPERTY_NAME] = "/channel/%channel%",
     [SETTINGS_LIMIT_PROPERTY_NAME] = 10,
     [SETTINGS_DIRECT_PROPERTY_NAME] = false,
