@@ -2,28 +2,45 @@ name: Release
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "*-v*"
 
 jobs:
-  create_releases:
+  release:
+    runs-on: ubuntu-latest
+
     permissions:
       contents: write
-    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
 
-      - name: Run create_dist.sh
+      - name: Extract ref
+        id: meta
+        shell: python
         run: |
-          chmod +x ./create_dist.sh
-          ./create_dist.sh
+          import os
+          import re
+          # @see: https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+          pattern = r"^(?P<packageName>[0-9a-zA-Z-._]+)-v(?P<currentValue>(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)\.(?P<patch>0|[1-9]\d*)(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?)$"
+          string = "${{ github.ref_name }}"
+          match = re.match(pattern, string)
+          if match:
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                f.write(f"currentValue={match.group('currentValue')}\n")
+                f.write(f"packageName={match.group('packageName')}\n")
+          else:
+              print(f"error: invalid ref {string}")
+              exit(1)
 
-      - name: Run release.sh
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
+      - name: Build
         run: |
-          chmod +x ./release.sh
-          ./release.sh
+          export GIT_PKG="${{ steps.meta.outputs.packageName }}"
+          export GIT_REF="${{ steps.meta.outputs.currentValue }}"
+          sh ./build.sh
 
+      - name: Release
+        uses: ncipollo/release-action@v1.18.0
+        with:
+          artifacts: dist/*.zip
