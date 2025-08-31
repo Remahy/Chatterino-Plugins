@@ -19,6 +19,7 @@ Spam = function(channelId)
   channel:send_message(command.restStr)
 
   if command.options.amount == 0 then
+    SPAM[channelId] = nil
     return
   end
 
