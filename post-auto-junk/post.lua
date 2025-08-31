@@ -1,3 +1,5 @@
+require "utils/parseCommand"
+
 SPAM = {}
 
 Spam = function(channelId)
