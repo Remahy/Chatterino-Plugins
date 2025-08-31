@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Chatterino/chatterino2/master/docs/plugin-info.schema.json",
+  "name": "post-auto-junk",
+  "description": "PAJ: Automatically post the same message, over, and over, again.",
+  "authors": [
+    "kararty",
+    "garfieldonsaturnus"
+  ],
+  "homepage": "https://github.com/Remahy/Chatterino-Plugins/tree/main/post-auto-junk",
+  "tags": [
+    "commands",
+    "utility"
+  ],
+  "version": "1.0.0",
+  "license": "MIT",
+  "permissions": []
+}
