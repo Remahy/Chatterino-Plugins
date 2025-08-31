@@ -1,0 +1,4 @@
+PAJ_SYSTEM_MESSAGE_PREFIX = "[paj]"
+
+COMMAND_PREFIX = "/"
+COMMAND_PAJ = "paj"
