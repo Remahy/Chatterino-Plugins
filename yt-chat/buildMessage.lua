@@ -44,15 +44,33 @@ local create_message = function(message)
     )
   end
 
-  local text = message["text"]
-  if text then
-    table.insert(
-      elements,
-      {
-        type = "text",
-        text = text
-      }
-    )
+  local textRuns = message["textRuns"]
+  if textRuns then
+    for _, textRun in ipairs(textRuns) do
+      local image = textRun["image"]
+      if image then
+        local c2Image = c2.Image.from_url(textRun["image"])
+        table.insert(
+          elements,
+          {
+            type = "image",
+            image = c2Image,
+            flags = { c2.MessageElementFlag.EmoteImage }
+          }
+        )
+      end
+
+      local text = textRun["text"]
+      if text then
+        table.insert(
+          elements,
+          {
+            type = "text",
+            text = text
+          }
+        )
+      end
+    end
   end
 
   return elements
@@ -62,12 +80,33 @@ local chat_poll_action = function()
   return nil
 end
 
+local parse_text_message_run = function(textRun)
+  local text = OptionalChain(textRun, "text")
+  if text then
+    return { text }
+  end
+
+  local emoji = OptionalChain(textRun, "emoji")
+  if emoji then
+    local entry = OptionalChain(emoji, "image", "thumbnails")
+    local _text = OptionalChain(emoji, "searchTerms") or {}
+    if entry then
+      local _entry = entry[1]
+      local url = _entry["url"]
+      local width = entry["width"]
+      local height = entry["width"]
+      return { text = table.concat(_text, " "), image = url, size = { width, height } }
+    end
+  end
+
+  return nil
+end
+
 ---@param textRenderer {}
 ---@param showChannel boolean
 ---@return c2.Message
 local text_message = function(data, textRenderer, showChannel)
   local channelName = data.channelName
-
 
   local name = OptionalChain(textRenderer, "authorName", "text") or
       OptionalChain(textRenderer, "authorName", "simpleText") or "[YouTube chatter]"
@@ -75,11 +114,15 @@ local text_message = function(data, textRenderer, showChannel)
 
   local messageRuns = OptionalChain(textRenderer, "message", "runs")
 
+  local textRuns = {}
   local text = ""
 
   if messageRuns then
     for _, textRun in ipairs(messageRuns) do
-      text = text .. (OptionalChain(textRun, "text") or "")
+      local parsed_run = parse_text_message_run(textRun)
+
+      table.insert(textRuns, parsed_run)
+      text = text .. (OptionalChain(parsed_run, "text") or "")
     end
   end
 
@@ -90,7 +133,7 @@ local text_message = function(data, textRenderer, showChannel)
   local elements = create_message({
     timestamp = timestamp,
     name = trimmedName,
-    text = text,
+    textRuns = textRuns,
     channel = Ternary(showChannel, channelName, nil)
   })
 
@@ -130,9 +173,9 @@ function Build_Message(data, item, showChannel)
   local ok, result = pcall(json.stringify, item)
 
   if ok then
-      print("Hit not handled message type: " .. result)
-    else
-      print("Tried to stringify a not handled message type", result)
+    print("Hit not handled message type: " .. result)
+  else
+    print("Tried to stringify a not handled message type", result)
   end
 
   return nil
