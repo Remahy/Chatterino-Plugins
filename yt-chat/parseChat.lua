@@ -1,4 +1,4 @@
-local json = require "libs/json"
+local json = require('chatterino.json')
 
 require "buildMessage"
 require "mm2plHelper"
@@ -15,7 +15,14 @@ local add_chat = function(data, action)
 
   if item == nil then
     print("Missing addChatItemAction.item")
-    print(json.encode(action))
+
+    local ok, result = pcall(json.stringify, action)
+    if ok then
+      print(result)
+    else
+      print("Tried to stringify addChatItemAction.item:", result)
+    end
+
     return
   end
 
@@ -87,7 +94,14 @@ local parse_live_chat_response = function(data, result)
   end
 
   local stringJson = result:data()
-  local youtubeData = json.decode(stringJson)
+
+  local ok, youtubeData = pcall(json.parse, stringJson)
+
+  if ok == false then
+    Remove_From_Active_Streams(videoId)
+    print("Tried to parse youtubeData in parse_live_chat_response:", youtubeData)
+    return
+  end
 
   if type(youtubeData) ~= "table" then
     Remove_From_Active_Streams(videoId)

@@ -1,4 +1,4 @@
-local json = require "libs/json"
+local json = require('chatterino.json')
 
 --To reduce a bunch of repeated code, we have this meta message that has every conceivable field for a message.
 ---@param message { timestamp: string }
@@ -127,7 +127,13 @@ function Build_Message(data, item, showChannel)
     return chat_poll_action()
   end
 
-  print("Hit not handled message type: " .. json.encode(item))
+  local ok, result = pcall(json.stringify, item)
+
+  if ok then
+      print("Hit not handled message type: " .. result)
+    else
+      print("Tried to stringify a not handled message type", result)
+  end
 
   return nil
 end

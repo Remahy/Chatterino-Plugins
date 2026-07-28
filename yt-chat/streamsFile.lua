@@ -1,4 +1,4 @@
-local json = require "libs/json"
+local json = require('chatterino.json')
 
 require "constants"
 require "mm2plHelper"
@@ -20,7 +20,7 @@ local streamFile_create = function()
   f:close()
 
   ---@type table
-  return json.decode(STREAMS_FILE_DEFAULT_CONTENT)
+  return json.parse(STREAMS_FILE_DEFAULT_CONTENT)
 end
 
 function StreamFile_Read()
@@ -35,7 +35,7 @@ function StreamFile_Read()
     f:close()
 
     ---@type table
-    return json.decode(rawFile)
+    return json.parse(rawFile)
   end
 
   return streamFile_create()
@@ -50,7 +50,14 @@ function StreamFile_Update(data)
 
   f:seek("set", 0)
 
-  f:write(json.encode(data)):flush()
+  local ok, result = json.stringify(data)
+
+  if ok then
+    f:write(result):flush()
+  else
+    print("Tried updating StreamFile", result)
+  end
+
   f:close()
 
   IO_LOCK = false

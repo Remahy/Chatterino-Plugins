@@ -1,4 +1,4 @@
-local json = require "libs/json"
+local json = require('chatterino.json')
 
 require "utils"
 require "streamsFile"
@@ -10,7 +10,14 @@ require "state"
 function Initialize_Live_Polling(data, splits)
   Add_To_Active_Streams(data.videoId, splits)
 
-  print("Heading into polling YouTube Chat with the following data:", json.encode(data))
+  local ok, result = pcall(json.stringify, data)
+
+  if ok then
+    print("Heading into polling YouTube Chat with the following data:", result)
+  else
+    print("Tried to stringify YouTube Chat Initialize_Live_Polling data:", result)
+  end
+
   Read_YouTube_Chat(data)
 end
 
