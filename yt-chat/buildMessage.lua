@@ -48,27 +48,28 @@ local create_message = function(message)
   if textRuns then
     for _, textRun in ipairs(textRuns) do
       local image = textRun["image"]
-
       if image then
-        local c2Image = c2.Image.from_url(image)
+        local size = textRun["size"] or { 24, 24 }
+        local c2Image = c2.Image.from_url(image, 1, size)
         table.insert(
           elements,
           {
             type = "image",
-            image = c2Image
+            image = c2Image,
+            flags = c2.MessageElementFlag.EmoteImage
           }
         )
-      end
-
-      local text = textRun["text"]
-      if text then
-        table.insert(
-          elements,
-          {
-            type = "text",
-            text = text
-          }
-        )
+      else
+        local text = textRun["text"]
+        if text then
+          table.insert(
+            elements,
+            {
+              type = "text",
+              text = text
+            }
+          )
+        end
       end
     end
   end
@@ -83,19 +84,33 @@ end
 local parse_text_message_run = function(textRun)
   local text = OptionalChain(textRun, "text")
   if text then
-    return { text }
+    return { text = text }
   end
 
   local emoji = OptionalChain(textRun, "emoji")
   if emoji then
     local entry = OptionalChain(emoji, "image", "thumbnails")
     local _text = OptionalChain(emoji, "searchTerms") or {}
+    local concatenatedEmojiText = table.concat(_text, " ")
+
+    ---@type string|nil
+    local emojiId = OptionalChain(emoji, "emojiId")
+
+    if not emojiId then
+      return { text = concatenatedEmojiText }
+    end
+
+    -- Arbitrary length
+    if emojiId:len() < 16 then
+      return { text = emojiId }
+    end
+
     if entry then
       local _entry = entry[1]
       local url = _entry["url"]
       local width = entry["width"]
-      local height = entry["width"]
-      return { text = table.concat(_text, " "), image = url, size = { width, height } }
+      local height = entry["height"]
+      return { text = concatenatedEmojiText, image = url, size = { width, height } }
     end
   end
 
