@@ -46,6 +46,23 @@ function Get_Keys(t)
   return keys
 end
 
+function Parse_Channel_HTML(result)
+  local html = result:data()
+
+  local isLive = html:find("THUMBNAIL_OVERLAY_BADGE_STYLE_LIVE")
+
+  if not isLive then
+    return nil, "offline"
+  end
+
+  local videoId = html:match(ANIMATION_ACTIVATION_TARGET_ID)
+  if videoId == nil then
+    return nil, "videoId"
+  end
+
+  return videoId
+end
+
 ---@param result c2.HTTPResponse
 function Parse_HTML(result)
   local html = result:data()

@@ -11,7 +11,7 @@ local add_chat = function(data, action)
 
   local item = OptionalChain(action, "addChatItemAction", "item")
 
-  local showChannel = #splits > 0
+  local showChannel = #splits > 1
 
   if item == nil then
     print("Missing addChatItemAction.item")
@@ -179,8 +179,8 @@ function Read_YouTube_Chat(data)
   request:on_success(function(result) parse_live_chat_response(data, result) end)
 
   request:on_error(function(result)
-    print("Something went wrong reading chat from videoId " ..
-      videoId .. " :" .. result:error())
+    print('Something went wrong reading chat from videoId "' ..
+      videoId .. '" : ' .. result:error())
   end)
 
   request:execute()
