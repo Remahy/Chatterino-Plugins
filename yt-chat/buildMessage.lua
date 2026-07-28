@@ -48,14 +48,14 @@ local create_message = function(message)
   if textRuns then
     for _, textRun in ipairs(textRuns) do
       local image = textRun["image"]
+
       if image then
-        local c2Image = c2.Image.from_url(textRun["image"])
+        local c2Image = c2.Image.from_url(image)
         table.insert(
           elements,
           {
             type = "image",
-            image = c2Image,
-            flags = { c2.MessageElementFlag.EmoteImage }
+            image = c2Image
           }
         )
       end
@@ -140,7 +140,7 @@ local text_message = function(data, textRenderer, showChannel)
   local message = c2.Message.new({
     id = "yt-chat-" .. id,
     message_text = text,
-    elements = elements
+    elements = elements,
   })
 
   return message
