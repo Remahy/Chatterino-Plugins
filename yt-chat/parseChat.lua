@@ -11,7 +11,7 @@ local add_chat = function(data, action)
 
   local item = OptionalChain(action, "addChatItemAction", "item")
 
-  local showChannel = #splits > 0
+  local showChannel = #splits > 1
 
   if item == nil then
     print("Missing addChatItemAction.item")
