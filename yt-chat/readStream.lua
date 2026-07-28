@@ -44,9 +44,7 @@ local parse_is_live_data = function(result, videoId, splits)
   end
 
   if Is_Active_Stream_VideoId_Active(data.videoId) == false then
-    local videoId = data.videoId
-
-    print("Loading " .. videoId .. " into " .. table.concat(splits, ", "))
+    print('Loading "' .. data.videoId .. '" into ' .. table.concat(splits, ", "))
     Initialize_Live_Polling(data, splits)
   end
 end
