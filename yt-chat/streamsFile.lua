@@ -50,7 +50,7 @@ function StreamFile_Update(data)
 
   f:seek("set", 0)
 
-  local ok, result = json.stringify(data)
+  local ok, result = pcall(json.stringify, data, { pretty = true })
 
   if ok then
     f:write(result):flush()
