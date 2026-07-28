@@ -98,7 +98,7 @@ function Initialize_URL(channel, url)
   request:on_success(function(result) handle_result(channel, url, result) end)
 
   request:on_error(function(result)
-    print("Something went wrong reading url " .. url .. " :" .. result:error())
+    print('Initialize_URL: Something went wrong reading url "' .. url .. '" : ' .. result:error())
     Warn_Faulty_URL(channel, url)
   end)
 

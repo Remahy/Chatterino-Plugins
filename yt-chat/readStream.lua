@@ -66,7 +66,10 @@ local is_live_request = function(videoId, splits)
 
   request:on_success(function(result) parse_is_live_data(result, videoId, splits) end)
 
-  request:on_error(function(result) print("Something went wrong reading url " .. url .. " :" .. result:error()) end)
+  request:on_error(function(result)
+    print('is_live_request: Something went wrong reading url "' ..
+      url .. '" : ' .. result:error())
+  end)
 
   request:execute()
 end
@@ -105,7 +108,10 @@ local is_streaming_request = function(channelId, splits)
 
   request:on_success(function(result) parse_is_streaming_data(result, splits) end)
 
-  request:on_error(function(result) print("Something went wrong reading url " .. url .. " :" .. result:error()) end)
+  request:on_error(function(result)
+    print('is_streaming_request: Something went wrong reading url "' ..
+      url .. '" : ' .. result:error())
+  end)
 
   request:execute()
 end
