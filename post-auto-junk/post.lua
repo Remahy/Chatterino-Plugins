@@ -12,7 +12,7 @@ Spam = function(channelId)
   ---@type { restStr: string, options: {} }
   local command = s.command
 
-  local channel = c2.Channel.by_twitch_id(channelId);
+  local channel = c2.Channel.by_twitch_id(channelId)
 
   if channel == nil then
     return
