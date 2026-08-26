@@ -17,10 +17,11 @@ local cmd_yt_chat = function(ctx)
     return
   end
 
-  local url = ctx.words[2]
+  local target = ctx.words[2]
+  local url = Normalize_YouTube_Target(target)
 
-  if Is_Valid_URL(url) == false then
-    Warn_URL_Not_YouTube(channel, url)
+  if url == nil then
+    Warn_URL_Not_YouTube(channel, target)
     return
   end
 

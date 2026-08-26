@@ -9,7 +9,7 @@ end
 ---@param url string
 function Warn_URL_Not_YouTube(channel, url)
   channel:add_system_message(YT_CHAT_SYSTEM_MESSAGE_PREFIX ..
-    "Not valid YouTube URL: " .. url .. " URLs must start with \"https://www.youtube.com/\"")
+    "Not a valid YouTube target: " .. url .. " Use @handle, a channel name or ID, a youtu.be link, or a https://www.youtube.com/ URL.")
 end
 
 ---@param channel c2.Channel
