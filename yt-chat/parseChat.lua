@@ -85,6 +85,11 @@ end
 local parse_live_chat_response = function(data, result)
   local videoId = data.videoId
 
+  -- A response can arrive after /yt-chat-stop removed this video.
+  if Is_Active_Stream_VideoId_Active(videoId) == false then
+    return
+  end
+
   local status = result:status()
 
   if status >= 300 then
@@ -153,7 +158,7 @@ end
 
 ---@param data { channelName:string, channelId:string, videoId:string, apiKey:string, clientVersion:string, continuation:string }
 function Read_YouTube_Chat(data)
-  local videoId = data.channelId
+  local videoId = data.videoId
   local apiKey = data.apiKey
   local clientVersion = data.clientVersion
   local continuation = data.continuation
@@ -181,6 +186,14 @@ function Read_YouTube_Chat(data)
   request:on_error(function(result)
     print('Something went wrong reading chat from videoId "' ..
       videoId .. '" : ' .. result:error())
+
+    if Is_Active_Stream_VideoId_Active(data.videoId) then
+      c2.later(function()
+        if Is_Active_Stream_VideoId_Active(data.videoId) then
+          Read_YouTube_Chat(data)
+        end
+      end, CHAT_RECONNECT_DELAY_MS)
+    end
   end)
 
   request:execute()

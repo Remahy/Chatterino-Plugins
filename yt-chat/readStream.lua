@@ -116,6 +116,7 @@ end
 
 function Read_Stream_Data()
   if IO_LOCK then
+    c2.later(Read_Stream_Data, OFFLINE_POLL_INTERVAL_MS)
     return
   end
 
@@ -131,5 +132,5 @@ function Read_Stream_Data()
     end
   end
 
-  c2.later(Read_Stream_Data, 1000)
+  c2.later(Read_Stream_Data, OFFLINE_POLL_INTERVAL_MS)
 end
