@@ -11,18 +11,18 @@ local function get_gif_url(gifs)
 end
 
 ---@param channel c2.Channel
-Inline_GIF = function(channel, rustlog_message)
-	if type(rustlog_message) ~= "table" then
+Inline_GIF = function(channel, recent_message)
+	if type(recent_message) ~= "table" then
 		return
 	end
 
-	local id = rustlog_message.id
+	local id = recent_message.id
 
 	if type(id) ~= "string" or id == "" then
 		return
 	end
 
-	local tags = rustlog_message.tags
+	local tags = recent_message.tags
 
 	if type(tags) ~= "table" then
 		return
@@ -53,7 +53,7 @@ Inline_GIF = function(channel, rustlog_message)
 
 	replacement:append_element({
 		type = "linebreak",
-		flags = c2.MessageElementFlag.Misc
+		flags = c2.MessageElementFlag.Text
 	})
 
 	replacement:append_element({

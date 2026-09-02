@@ -1,12 +1,19 @@
-require "rustlog"
+require "recentmessages"
 
 -- CHATGPT SLOP
 
+local RECENTMESSAGES_DELAY_MS = 250
 local DEBOUNCE_MS = 500
 local MAX_WAIT_MS = 1000
 
 local debounce = {}
 local next_debounce_id = 0
+
+local function delayed_lookup(channel_name)
+	c2.later(function()
+		Get_Logs(channel_name)
+	end, RECENTMESSAGES_DELAY_MS)
+end
 
 ---@param channel_name string
 ---@param timestamp_ms number
@@ -41,9 +48,6 @@ Debounce = function(channel_name, timestamp_ms)
 				return
 			end
 
-			local from_ms = current.from_ms
-			local to_ms = current.to_ms
-
 			debounce[channel_name] = nil
 
 			c2.log(
@@ -52,7 +56,7 @@ Debounce = function(channel_name, timestamp_ms)
 				.. channel_name
 			)
 
-			Get_Logs(channel_name, from_ms, to_ms)
+			delayed_lookup(channel_name)
 		end, MAX_WAIT_MS)
 	end
 
@@ -89,16 +93,13 @@ Debounce = function(channel_name, timestamp_ms)
 			return
 		end
 
-		local from_ms = current.from_ms
-		local to_ms = current.to_ms
-
 		debounce[channel_name] = nil
 
 		c2.log(
 			c2.LogLevel.Debug,
-			"inline-gifs: debounce settled for "			.. channel_name
+			"inline-gifs: debounce settled for " .. channel_name
 		)
 
-		Get_Logs(channel_name, from_ms, to_ms)
+		delayed_lookup(channel_name)
 	end, DEBOUNCE_MS)
 end

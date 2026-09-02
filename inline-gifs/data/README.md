@@ -2,6 +2,6 @@
 
 ```json
 {
-  "rustlog": "https://logs.ivr.fi/"
+  "recentmessages": "https://recent-messages.robotty.de/api/v2/recent-messages/"
 }
 ```

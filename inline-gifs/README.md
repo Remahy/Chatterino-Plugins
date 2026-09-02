@@ -8,7 +8,6 @@ Shows GIF Keyboard content inline.
 
 ## Data sources
 
-Chatterino plugins currently lack access to the raw Twitch IRC tags, so this plugin uses logging services like Rustlog to retrieve the IRC tag. If this doesn't work in your channel it means your chat isn't added to these logging services. Users may also opt-out of these logging services.
+Chatterino plugins currently lack access to the raw Twitch IRC tags, so this plugin uses message history services like recent-messages to retrieve the IRC tag. If this doesn't work in your channel it means your chat isn't added to these services. Users may also opt-out of these services.
 
-* logs.ivr.fi
-* recentmessages.robotty.de as backup
+* recentmessages.robotty.de

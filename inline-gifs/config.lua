@@ -3,11 +3,11 @@ local json = require("chatterino.json")
 local CONFIG_FILE = "INLINE_GIFS.json"
 
 local DEFAULT_CONFIG = {
-	rustlog = "https://logs.ivr.fi",
+	recentmessages = "https://recent-messages.robotty.de/api/v2/recent-messages/",
 }
 
 local DEFAULT_CONFIG_DEFAULT_CONTENT = [[{
-  "rustlog": "]] .. DEFAULT_CONFIG.rustlog .. [["
+  "recentmessages": "]] .. DEFAULT_CONFIG.recentmessages .. [["
 }]]
 
 local function create_config_file()
@@ -16,7 +16,7 @@ local function create_config_file()
 	if not file then
 		c2.log(
 			c2.LogLevel.Critical,
-			"inline-gifs: unable to create " .. CONFIG_FILE .. ": " .. tostring(err)
+			"inline-gifs: unable to create " .. CONFIG_FILE .. ": " .. err
 		)
 
 		return false
@@ -42,13 +42,13 @@ function Load_Config()
 
 		if not config_created then
 			return {
-				rustlog = DEFAULT_CONFIG.rustlog,
+				recentmessages = DEFAULT_CONFIG.recentmessages,
 			}
 		end
 
 		--- Pepega I mean yes we created the file but technically we still using the default value.
 		return {
-			rustlog = DEFAULT_CONFIG.rustlog,
+			recentmessages = DEFAULT_CONFIG.recentmessages,
 		}
 	end
 
@@ -66,24 +66,24 @@ function Load_Config()
 		create_config_file()
 
 		return {
-			rustlog = DEFAULT_CONFIG.rustlog,
+			recentmessages = DEFAULT_CONFIG.recentmessages,
 		}
 	end
 
-	if type(config.rustlog) ~= "string" or config.rustlog == "" then
+	if type(config.recentmessages) ~= "string" or config.recentmessages == "" then
 		c2.log(
 			c2.LogLevel.Warning,
-			"inline-gifs: invalid/missing 'rustlog' in " .. CONFIG_FILE .. "; replacing it with defaults"
+			"inline-gifs: invalid/missing 'recentmessages' in " .. CONFIG_FILE .. "; replacing it with defaults"
 		)
 
 		create_config_file()
 
 		return {
-			rustlog = DEFAULT_CONFIG.rustlog,
+			recentmessages = DEFAULT_CONFIG.recentmessages,
 		}
 	end
 
-	config.rustlog = string.gsub(config.rustlog, "/+$", "")
+	config.recentmessages = string.gsub(config.recentmessages, "/+$", "")
 
 	return config
 end
