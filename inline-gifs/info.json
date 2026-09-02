@@ -1,0 +1,24 @@
+{
+	"$schema": "https://raw.githubusercontent.com/Chatterino/chatterino2/master/docs/plugin-info.schema.json",
+	"name": "inline-gifs",
+	"description": "Shows GIF Keyboard content inline.",
+	"authors": [
+		"kararty"
+	],
+	"homepage": "https://github.com/Remahy/Chatterino-Plugins/tree/main/inline-gifs",
+	"tags": [
+		"gif",
+		"rustlog",
+		"utility"
+	],
+	"version": "1.0.0",
+	"license": "MIT",
+	"permissions": [
+		{
+			"type": "Network"
+		},
+		{
+			"type": "FilesystemRead"
+		}
+	]
+}
