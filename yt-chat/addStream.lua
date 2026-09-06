@@ -20,7 +20,9 @@ local initialize_add_stream = function(channel, data)
 
     local splits = Stream_Add_Split_To_Channel(channelId, split)
 
-    if continuation then
+    if continuation and Is_Active_Stream_VideoId_Active(videoId) == false then
+      Initialize_Live_Polling(data, splits)
+    elseif continuation then
       Add_To_Active_Streams(videoId, splits)
     end
 
