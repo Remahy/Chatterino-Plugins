@@ -17,6 +17,34 @@ function Is_Valid_URL(url)
   return true
 end
 
+---@param target string
+---@return string?
+function Normalize_YouTube_Target(target)
+  if type(target) ~= "string" then
+    return nil
+  end
+
+  target = Trim5(target)
+
+  if target:match("^@[%w%._%-]+$") then
+    return "https://www.youtube.com/" .. target .. "/live"
+  end
+
+  if target:match("^https://youtu%.be/") then
+    return target
+  end
+
+  if target:match("^[%w_%-]+$") then
+    return "https://www.youtube.com/channel/" .. target .. "/live"
+  end
+
+  if Is_Valid_URL(target) then
+    return target
+  end
+
+  return nil
+end
+
 function FileExists(filename)
   local isPresent = nil
   local f = io.open(filename, "r")
