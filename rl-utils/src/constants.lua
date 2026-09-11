@@ -1,0 +1,6 @@
+RL_UTILS_SYSTEM_MESSAGE_PREFIX = "[rl-utils]"
+
+COMMAND_LOGS = "logs"
+COMMAND_LINK = "link"
+COMMAND_NEXT = "next"
+COMMAND_PREV = "prev"
